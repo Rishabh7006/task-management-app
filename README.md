@@ -36,13 +36,14 @@ https://task-management-app-three-rho.vercel.app/
 ## 📁 Project Structure
 
 src/
-├── components/        # UI components (Task, Board, Modal, etc.)
+├── components/ # UI components (Task, Board, Modal, etc.)
 ├── utils/
-│   ├── useTaskStore.ts   # state management (custom hook)
-│   ├── helpers.ts
-│   └── constants.ts
-├── types/            # TypeScript types
-├── lib/utils.ts      # cn helper
+│ ├── useTaskStore.ts # state management (custom hook)
+│ ├── helpers.ts
+│ └── constants.ts
+├── types/ # TypeScript types
+├── lib/
+│ └── utils.ts # cn helper
 ├── App.tsx
 └── main.tsx
 
@@ -80,4 +81,4 @@ All core logic, architecture decisions, and implementation were written and full
 👨‍💻 Author
 
 Rishabh Khandelwal
-Senior Frontend Developer
+- Senior Frontend Developer
