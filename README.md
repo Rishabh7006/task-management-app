@@ -74,7 +74,6 @@ Used AI for:
 - Debugging Vite + Tailwind build issues
 - Fixing Vercel deployment errors (TypeScript + build)
 - README formatting and structuring
-All core logic, architecture decisions, and implementation were written and fully understood manually.
 
 ---
 
