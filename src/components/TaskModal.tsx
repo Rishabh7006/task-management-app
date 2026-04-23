@@ -8,6 +8,7 @@ import { Label } from '../components/ui/label';
 import { Textarea } from '../components/ui/textarea';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../components/ui/select';
 
+// @RK - Props for controlling modal visibility, saving data, and handling edit mode
 interface TaskModalProps {
   isOpen: boolean;
   onClose: () => void;
@@ -16,7 +17,10 @@ interface TaskModalProps {
   defaultStatus?: TaskStatus;
 }
 
+// @RK - Modal component used for both creating and editing tasks
 export const TaskModal = ({ isOpen, onClose, onSave, task, defaultStatus = 'backlog' }: TaskModalProps) => {
+
+  // @RK - Form state to manage all input fields inside the modal
   const [formData, setFormData] = useState<TaskFormData>({
     title: '',
     description: '',
@@ -25,8 +29,11 @@ export const TaskModal = ({ isOpen, onClose, onSave, task, defaultStatus = 'back
     status: defaultStatus,
     dueDate: new Date().toISOString().split('T')[0],
   });
+
+  // @RK - Stores validation errors for form fields
   const [errors, setErrors] = useState<Partial<Record<keyof TaskFormData, string>>>({});
 
+  // @RK - Updates form when editing an existing task or resetting for new task
   useEffect(() => {
     if (task) {
       setFormData({
@@ -50,6 +57,7 @@ export const TaskModal = ({ isOpen, onClose, onSave, task, defaultStatus = 'back
     setErrors({});
   }, [task, defaultStatus, isOpen]);
 
+  // @RK - Simple validation to ensure required fields are filled before saving
   const validate = (): boolean => {
     const newErrors: Partial<Record<keyof TaskFormData, string>> = {};
     if (!formData.title.trim()) newErrors.title = 'Title is required';
@@ -58,6 +66,7 @@ export const TaskModal = ({ isOpen, onClose, onSave, task, defaultStatus = 'back
     return Object.keys(newErrors).length === 0;
   };
 
+  // @RK - Handles form submission, validates input, and sends data to parent
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (validate()) {
@@ -66,12 +75,19 @@ export const TaskModal = ({ isOpen, onClose, onSave, task, defaultStatus = 'back
     }
   };
 
+  // @RK - Do not render modal if it is closed
   if (!isOpen) return null;
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+
+      {/* @RK - Background overlay to close modal on click */}
       <div className="fixed inset-0 bg-slate-900/50 backdrop-blur-sm" onClick={onClose} />
+
+      {/* @RK - Main modal container */}
       <div className="relative bg-white rounded-2xl shadow-2xl w-full max-w-lg max-h-[90vh] overflow-y-auto">
+
+        {/* @RK - Modal header with title and close button */}
         <div className="sticky top-0 bg-white border-b border-slate-100 px-6 py-4 flex items-center justify-between">
           <h2 className="text-xl font-semibold text-slate-800">
             {task ? 'Edit Task' : 'Create New Task'}
@@ -84,7 +100,10 @@ export const TaskModal = ({ isOpen, onClose, onSave, task, defaultStatus = 'back
           </button>
         </div>
 
+        {/* @RK - Form section for input fields */}
         <form onSubmit={handleSubmit} className="p-6 space-y-5">
+
+          {/* @RK - Title input */}
           <div>
             <Label htmlFor="title" className="text-slate-700 font-medium">Title</Label>
             <Input
@@ -97,6 +116,7 @@ export const TaskModal = ({ isOpen, onClose, onSave, task, defaultStatus = 'back
             {errors.title && <p className="text-red-500 text-sm mt-1">{errors.title}</p>}
           </div>
 
+          {/* @RK - Description input */}
           <div>
             <Label htmlFor="description" className="text-slate-700 font-medium">Description</Label>
             <Textarea
@@ -109,6 +129,7 @@ export const TaskModal = ({ isOpen, onClose, onSave, task, defaultStatus = 'back
             />
           </div>
 
+          {/* @RK - Assignee and Priority selection */}
           <div className="grid grid-cols-2 gap-4">
             <div>
               <Label className="text-slate-700 font-medium">Assignee</Label>
@@ -146,6 +167,7 @@ export const TaskModal = ({ isOpen, onClose, onSave, task, defaultStatus = 'back
             </div>
           </div>
 
+          {/* @RK - Status and Due Date selection */}
           <div className="grid grid-cols-2 gap-4">
             <div>
               <Label className="text-slate-700 font-medium">Status</Label>
@@ -178,6 +200,7 @@ export const TaskModal = ({ isOpen, onClose, onSave, task, defaultStatus = 'back
             </div>
           </div>
 
+          {/* @RK - Action buttons */}
           <div className="flex gap-3 pt-4">
             <Button type="button" variant="outline" onClick={onClose} className="flex-1">
               Cancel

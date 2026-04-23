@@ -1,14 +1,17 @@
 import type { Task, TaskStatus, FilterState, ActivityLog } from "../types";
 
+// @RK - Generates a unique ID for tasks and activity logs
 export const generateId = (): string => {
   return Date.now().toString(36) + Math.random().toString(36).substr(2);
 };
 
+// @RK - Formats date into a readable format (e.g., Jan 10, 2026)
 export const formatDate = (dateString: string): string => {
   const date = new Date(dateString);
   return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
 };
 
+// @RK - Formats date with time for activity logs
 export const formatDateTime = (dateString: string): string => {
   const date = new Date(dateString);
   return date.toLocaleDateString('en-US', { 
@@ -19,6 +22,7 @@ export const formatDateTime = (dateString: string): string => {
   });
 };
 
+// @RK - Checks if a task is overdue (only if not already completed)
 export const isOverdue = (dueDate: string, status: TaskStatus): boolean => {
   if (status === 'done') return false;
   const today = new Date();
@@ -28,6 +32,7 @@ export const isOverdue = (dueDate: string, status: TaskStatus): boolean => {
   return due < today;
 };
 
+// @RK - Filters tasks based on search text, assignee, and priority
 export const filterTasks = (tasks: Task[], filters: FilterState): Task[] => {
   return tasks.filter(task => {
     const matchesSearch = task.title.toLowerCase().includes(filters.search.toLowerCase()) ||
@@ -39,6 +44,7 @@ export const filterTasks = (tasks: Task[], filters: FilterState): Task[] => {
   });
 };
 
+// @RK - Groups tasks into columns based on their status for Kanban board
 export const groupTasksByStatus = (tasks: Task[]): Record<TaskStatus, Task[]> => {
   return {
     'backlog': tasks.filter(t => t.status === 'backlog'),
@@ -48,6 +54,7 @@ export const groupTasksByStatus = (tasks: Task[]): Record<TaskStatus, Task[]> =>
   };
 };
 
+// @RK - Creates an activity log entry for tracking task actions
 export const createActivityLog = (taskId: string, action: string, details?: string): ActivityLog => ({
   id: generateId(),
   taskId,
@@ -56,6 +63,7 @@ export const createActivityLog = (taskId: string, action: string, details?: stri
   details,
 });
 
+// @RK - Saves data to localStorage with error handling
 export const saveToLocalStorage = <T>(key: string, data: T): void => {
   try {
     localStorage.setItem(key, JSON.stringify(data));
@@ -64,6 +72,7 @@ export const saveToLocalStorage = <T>(key: string, data: T): void => {
   }
 };
 
+// @RK - Loads data from localStorage or returns default value if not found
 export const loadFromLocalStorage = <T>(key: string, defaultValue: T): T => {
   try {
     const item = localStorage.getItem(key);
