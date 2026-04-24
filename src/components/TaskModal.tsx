@@ -172,7 +172,7 @@ export const TaskModal = ({ isOpen, onClose, onSave, task, defaultStatus = 'back
             <div>
               <Label className="text-slate-700 font-medium">Status</Label>
               <Select
-                value={formData.status}
+                value={formData.status || defaultStatus} // @RK - fallback to avoid empty status
                 onValueChange={(value: TaskStatus) => setFormData({ ...formData, status: value })}
               >
                 <SelectTrigger className="mt-1.5">

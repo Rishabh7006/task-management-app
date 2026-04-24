@@ -20,7 +20,7 @@ export const TaskCard = ({ task, onEdit, onDelete, onDragStart }: TaskCardProps)
     <div
       draggable
       onDragStart={(e) => onDragStart(e, task)}
-      className="group bg-white border border-slate-200 rounded-lg p-4 cursor-grab active:cursor-grabbing hover:shadow-md hover:border-slate-300 transition-all duration-200"
+      className="group bg-white border border-slate-200 rounded-lg p-4 cursor-pointer hover:shadow-md hover:border-slate-300 transition-all duration-200 active:cursor-grabbing"
     >
       <div className="flex items-start justify-between gap-2 mb-3">
         <h4 className="font-medium text-slate-800 text-sm leading-snug line-clamp-2">

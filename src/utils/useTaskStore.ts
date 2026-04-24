@@ -60,7 +60,12 @@ export const useTaskStore = () => {
   const updateTask = useCallback((id: string, data: Partial<TaskFormData>) => {
     setTasks(prev => prev.map(task => {
       if (task.id !== id) return task;
-      const updated = { ...task, ...data };
+      // const updated = { ...task, ...data };
+      const updated = {
+        ...task,
+        ...data,
+        status: data.status || task.status, // @RK - prevent empty status breaking board
+      };
       
       if (data.status && data.status !== task.status) {
         addActivity(id, 'Status changed', `Moved from "${task.status}" to "${data.status}"`);
